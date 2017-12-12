@@ -1,0 +1,30 @@
+<template>
+    <article class="ui raised segment">
+
+      <h1 class="ui header">Global Timeline</h1>
+
+      <compose view="./../partials/tweetlist.html"></compose>
+
+    </article>
+</template>
+
+<!--script>
+  $("#selectAllCb").click(function () {
+    $("input[name='tweetToDelete']").prop('checked', this.checked);
+  });
+
+  $("input[name='tweetToDelete']").click(function () {
+    if (this.checked) {
+      let isAllChecked = true;
+      $("input[name='tweetToDelete']").each(function () {
+        if (!this.checked) {
+          isAllChecked = false;
+        }
+      });
+      $("#selectAllCb").prop('checked', isAllChecked);
+    } else {
+      $("#selectAllCb").prop('checked', false);
+    }
+  });
+</script-->
+

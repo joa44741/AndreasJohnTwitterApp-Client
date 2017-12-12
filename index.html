@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Aurelia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
+<head>
+  <title>Twitter</title>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
+  <script type="text/javascript" src="/assets/js/lightbox.js"></script>
+  <link rel="stylesheet" media="screen" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.css">
+  <link rel="stylesheet" media="screen" href="/assets/css/lightbox.css">
+  <link rel="stylesheet" media="screen" href="/assets/css/main.css">
+</head>
 
-  <body aurelia-app="main">
-    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
-  </body>
+<body aurelia-app="main">
+<script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+</body>
+<script>
+  $(document).ready(function () {
+    $('.ui.dropdown').dropdown({ on: 'hover' });
+  });
+</script>
 </html>
