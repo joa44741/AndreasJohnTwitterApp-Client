@@ -2,6 +2,12 @@
 
   <form submit.delegate="login($event)" class="ui stacked segment form">
     <h3 class="ui header">Log-in</h3>
+    <div if.bind="errorMessage" class="ui negative message transition">
+      <div class="header">
+        ${errorMessage}
+      </div>
+    </div>
+
     <div class="field">
       <label>Email</label> <input placeholder="Email" value.bind="email"/>
     </div>
@@ -9,7 +15,6 @@
       <label>Password</label> <input type="password" value.bind="password"/>
     </div>
     <button class="ui blue submit button">Login</button>
-    <h3>${prompt}</h3>
   </form>
 
 </template>

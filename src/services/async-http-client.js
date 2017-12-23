@@ -4,7 +4,7 @@ import Fixtures from './fixtures';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {LoginStatus} from './messages';
 
-@inject(HttpClient, Fixtures, EventAggregator )
+@inject(HttpClient, Fixtures, EventAggregator)
 export default class AsyncHttpClient {
 
   constructor(httpClient, fixtures, ea) {
@@ -19,10 +19,9 @@ export default class AsyncHttpClient {
     this.http.post(url, user).then(response => {
       const status = response.content;
       if (status.success) {
-        localStorage.twitter = JSON.stringify(response.content);
-        this.http.configure(configuration => {
-          configuration.withHeader('Authorization', 'bearer ' + response.content.token);
-        });
+        this.updateTokenAndHeader(status);
+      } else {
+        status.wrongLoginData = true;
       }
       this.ea.publish(new LoginStatus(status));
     }).catch(error => {
@@ -31,6 +30,13 @@ export default class AsyncHttpClient {
         message: 'service not available'
       };
       this.ea.publish(new LoginStatus(status));
+    });
+  }
+
+  updateTokenAndHeader(status) {
+    localStorage.twitter = JSON.stringify(status);
+    this.http.configure(configuration => {
+      configuration.withHeader('Authorization', 'bearer ' + status.token);
     });
   }
 

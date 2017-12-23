@@ -9,14 +9,18 @@ export class App {
   constructor(ts, au, ea) {
     this.au = au;
     this.tweetService = ts;
+
     ea.subscribe(LoginStatus, msg => {
-      this.router.navigate('/', { replace: true, trigger: false });
-      console.log(this.router.navigation);
-      this.router.reset();
-      if (msg.status === true) {
-        au.setRoot('home');
-      } else {
-        au.setRoot('app');
+      console.log(msg.status.wrongLoginData);
+      if (!msg.status.wrongLoginData) {
+        this.router.navigate('/', { replace: true, trigger: false });
+        this.router.reset();
+        if (msg.status.success === true) {
+          this.tweetService.getDataForLoggedInUser();
+          au.setRoot('home');
+        } else {
+          au.setRoot('app');
+        }
       }
     });
   }
@@ -32,8 +36,9 @@ export class App {
 
   attached() {
     if (this.tweetService.isAuthenticated()) {
+      this.tweetService.getDataForLoggedInUser();
       this.au.setRoot('home').then(() => {
-        this.router.navigateToRoute('dashboard');
+        this.router.navigateToRoute('firehose');
       });
     }
   }

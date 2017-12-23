@@ -1,0 +1,34 @@
+<template>
+  <article class="ui raised segment">
+
+    <h1 class="ui header">Tweet your thoughts</h1>
+
+    <div class="ui divider"></div>
+
+    <div class="ui grid">
+      <div class="ui sixteen wide column fluid form">
+        <div class="ui stacked segment">
+          <form submit.trigger="postTweet()" enctype="multipart/form-data">
+            <div if.bind="errorMessage" class="ui negative message transition">
+              <div class="header">
+                ${errorMessage}
+              </div>
+            </div>
+            <div class="field">
+              <label>Message</label>
+              <textarea onkeyup="textCounter(this,140);" maxlength="140" placeholder="Message" type="text"
+                        value.bind="message"></textarea>
+              <input disabled maxlength="3" size="3" value="140" id="counter">
+            </div>
+            <div class="field">
+              <label>Image</label>
+              <input type="file" accept="image/*" files.bind="picture"> </input>
+            </div>
+            <button class="ui blue submit button">Send!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</template>

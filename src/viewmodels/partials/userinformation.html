@@ -1,0 +1,27 @@
+<template>
+  <div class="ui grid">
+    <div class="fifteen wide column">
+      <h1 if.bind="isMyTimeline" class="ui header">My Timeline</h1>
+      <h1 if.bind="!isMyTimeline" class="ui header">Timeline of User: ${user.nickName}</h1>
+    </div>
+    <div if.bind="!isMyTimeline" class="one wide column">
+        <button if.bind="isFollowing" class="ui blue submit button right floated" click.delegate="unfollowUser()">Unfollow</button>
+        <button if.bind="!isFollowing" class="ui blue submit button right floated" click.delegate="followUser()">Follow</button>
+    </div>
+    <div class="sixteen wide column">
+      <img class="small ui image" src="${user.imageUrl}">
+      <h3 class="sub header">
+        Name: ${user.firstName} ${user.lastName}<br/>
+        Email: ${user.email}
+      </h3>
+    </div>
+    <div class="two wide column">
+      <i class="users icon"></i>
+      ${user.followers.length} Followers
+    </div>
+    <div class="two wide column">
+      <i class="users icon"></i>
+      ${user.followings.length} Followings
+    </div>
+  </div>
+</template>

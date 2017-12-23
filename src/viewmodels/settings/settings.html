@@ -1,0 +1,40 @@
+<template>
+    <article class="ui raised segment">
+      <div class="ui grid">
+        <div class="ui sixteen wide column">
+          <div class="ui stacked fluid form segment">
+            <form submit.trigger="updateSettings()" enctype="multipart/form-data">
+              <h3 class="ui header">Settings</h3>
+              <div class="field">
+                <label>First Name</label>
+                <input value.bind="firstName" type="text" name="firstName">
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input value.bind="lastName" type="text" name="lastName">
+              </div>
+              <div class="field">
+                <label>Nick Name</label>
+                <input value.bind="nickName" type="text" name="nickName">
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input value.bind="email" type="text" name="email">
+              </div>
+              <div class="field">
+                <label>Password</label>
+                <input value.bind="password" type="password" name="password">
+              </div>
+              <div class="field">
+                <img class="small ui image" src="${imageUrl}">
+                <label>New image</label>
+                <input type="file" accept="image/*" files.bind="picture"> </input>
+              </div>
+              <button class="ui blue submit button">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </article>
+</template>
+

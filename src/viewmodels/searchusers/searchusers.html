@@ -1,0 +1,38 @@
+<template>
+  <article class="ui raised segment">
+
+    <h1 class="ui header">Search for users</h1>
+
+    <form class="ui form">
+      <div class="inline field">
+        <div class="ui left icon input">
+          <input value.bind='filter' input.delegate="filterChanged()" type="text" placeholder="Search users...">
+          <i class="users icon"></i>
+        </div>
+      </div>
+    </form>
+
+    <div class="ui divider"></div>
+
+    <div class="ui cards">
+      <div class="card" repeat.for="user of filteredUsers">
+        <div class="content">
+          <img class="right floated mini ui image" src="${user.imageUrl}">
+          <a class="header">${user.nickName}</a>
+          <div class="meta">
+            ${user.firstName} ${user.lastName}<br/>
+            ${user.email}
+          </div>
+        </div>
+        <div class="extra content">
+          <a class="ui blue submit button right floated" route-href="route: showtimeline; params.bind: {id:user._id}">
+            Show Timeline
+          </a>
+          <i class="users icon"></i>
+          ${user.followers.length} Followers
+        </div>
+      </div>
+    </div>
+  </article>
+</template>
+

@@ -9,13 +9,20 @@
           <div class="inline fields">
             <div class="fifteen wide field">
               <div class="summary">
-                <a href="/showtimeline" class="user">${tweet.author.nickName}</a>
+                <a if.bind="tweet.isTweetOfCurrentUser || isMyTimeline" class="user" route-href="route: mytimeline">
+                  ${tweet.author.nickName}
+                </a>
+                <a if.bind="!tweet.isTweetOfCurrentUser && !isMyTimeline" class="user"
+                   route-href="route: showtimeline; params.bind: {id:tweet.author._id}">
+                  ${tweet.author.nickName}
+                </a>
                 <div class="date">${tweet.creationDate}</div>
               </div>
             </div>
             <div class="one wide field">
               <div if.bind="isDeletable" class="ui checkbox">
-                <input type="checkbox" value="${tweet._id}" name="tweetToDelete"/>
+                <input type="checkbox" value="${tweet._id}" name="tweetToDelete" model.bind="tweet._id"
+                       checked.bind="selectedTweets"/>
                 <label>select</label>
               </div>
             </div>
@@ -24,7 +31,17 @@
             ${tweet.message}
           </div>
           <div if.bind="tweet.imageUrl" class="extra images">
-            <a href="${tweet.imageUrl}" data-lightbox="image-${tweet._id}"><img src="${tweet.imageUrl}"></a>
+            <!--a href="${tweet.imageUrl}" data-lightbox="image-${tweet._id}"><img src="${tweet.imageUrl}"></a-->
+            <img src="${tweet.imageUrl}">
+            <!--a onclick="${tweet._id}).modal('show');">
+              <img src="${tweet.imageUrl}">
+            </a-->
+            <!--div class="ui modal">
+              <i class="close icon"></i>
+              <div class="image content">
+                  <img class="ui centered image" src="${tweet.imageUrl}">
+              </div>
+            </div-->
           </div>
           <div class="meta">
 
@@ -34,15 +51,12 @@
     </div>
     <div if.bind="isDeletable">
       <div class="ui divider"></div>
-      <div class="inline fields">
-        <div class="fifteen wide field">
-          <button class="ui blue submit button">Delete selection</button>
+      <div class="two inline fields">
+        <div class="three wide field">
+          <button class="ui blue submit button" click.delegate="deleteSelectedTweets()">Delete selection</button>
         </div>
-        <div class="one wide field right aligned">
-          <div class="ui checkbox right aligned">
-            <input type="checkbox" id="selectAllCb"/>
-            <label>select all</label>
-          </div>
+        <div class="three wide field">
+          <button class="ui blue submit button" click.delegate="deleteAllTweets()">Delete all tweets</button>
         </div>
       </div>
     </div>

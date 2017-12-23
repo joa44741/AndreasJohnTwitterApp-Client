@@ -1,15 +1,28 @@
 import {inject} from 'aurelia-framework';
 import TweetService from '../../services/tweet-service';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {LoginStatus} from '../../services/messages';
 
-@inject(TweetService)
+@inject(TweetService, EventAggregator)
 export class Login {
 
-  email = 'adam@bien.com';
+  errorMessage = null;
+  email = 'john@doe.com';
   password = 'secret';
+  counter = 0;
 
-  constructor(ts) {
+  constructor(ts, ea) {
     this.tweetService = ts;
-    this.prompt = '';
+    ea.subscribe(LoginStatus, msg => {
+      if (msg.status.wrongLoginData) {
+        this.counter++;
+        this.errorMessage = 'wrong login data (' + this.counter + ' tries already)';
+        console.log(this.errorMessage);
+      } else if (msg.status.success) {
+        this.counter = 0;
+        this.errorMessage = null;
+      }
+    });
   }
 
   login(e) {
