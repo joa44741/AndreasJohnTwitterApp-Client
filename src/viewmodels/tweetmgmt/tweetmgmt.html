@@ -1,86 +1,101 @@
 <template>
   <article class="ui raised segment">
 
-    <h1 class="ui header">Search for users</h1>
+    <h1 class="ui header">Tweet management</h1>
 
-    <form class="ui form">
-      <div class="inline field">
-        <div class="ui left icon input">
-          <input value.bind='filter' input.delegate="filterChanged()" type="text" placeholder="Filter users...">
-          <i class="users icon"></i>
-        </div>
-      </div>
-    </form>
-
-    <div class="ui divider"></div>
-
-    <div class="ui grid">
-      <div class="four wide column">
-        <div class="ui link items">
-          <button class="ui inverted grey button item" repeat.for="user of filteredUsers" click.delegate="selectUser(user._id)">
-            <div class="ui tiny image">
-              <img src="${user.imageUrl}">
-            </div>
-            <div class="middle aligned content userItemText">
-              ${user.nickName}
-            </div>
-          </button>
-        </div>
-      </div>
-      <div class="twelve wide column">
-        <form class="ui form">
-          <div class="ui feed">
-            <div class="event" repeat.for="tweet of tweets">
-              <div class="label">
-                <img src="${tweet.author.imageUrl}">
-              </div>
-              <div class="content">
-                <div class="inline fields">
-                  <div class="fourteen wide field">
-                    <div class="summary">
-                      <a class="user">
-                        ${tweet.author.nickName}
-                      </a>
-                      <div class="date">${tweet.formattedDate} (${tweet.creationDate})</div>
-                    </div>
-                  </div>
-                  <div class="two wide field">
-                    <div class="ui checkbox">
-                      <input type="checkbox" value="${tweet._id}" name="tweetToDelete" model.bind="tweet._id"
-                             checked.bind="selectedTweets"/>
-                      <label>select</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="extra text">
-                  ${tweet.message}
-                </div>
-                <div if.bind="tweet.imageUrl" class="extra images">
-                  <img src="${tweet.imageUrl}">
-                </div>
-                <div class="meta">
-
-                </div>
-              </div>
-            </div>
+    <section class="ui raised segment">
+      <form class="ui form">
+        <h3 class="ui header">Filter users</h3>
+        <div class="inline field">
+          <div class="ui left icon input">
+            <input value.bind='filter' input.delegate="filterChanged()" type="text" placeholder="Filter users...">
+            <i class="users icon"></i>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
 
-    <div class="ui divider"></div>
-    <form class="ui form">
-      <div class="two inline fields">
-        <div class="four wide field">
-          <button class="ui blue submit button" click.delegate="deleteSelectedTweets()">Delete selected tweets
-            (${selectedTweets.length})
-          </button>
+      <div class="ui grid raised segment">
+        <div class="four wide column">
+          <div class="ui link items">
+            <button class="ui inverted grey button item" repeat.for="user of filteredUsers"
+                    click.delegate="selectUser(user._id)">
+              <div class="ui tiny image">
+                <img src="${user.imageUrl}">
+              </div>
+              <div class="middle aligned content userItemText">
+                ${user.nickName}
+              </div>
+            </button>
+          </div>
         </div>
-        <div class="three wide field">
-          <button class="ui blue submit button" click.delegate="deleteAllTweets()">Delete all tweets</button>
+        <div class="twelve wide column">
+          <form class="ui form">
+            <div class="ui feed">
+              <div class="event" repeat.for="tweet of tweets">
+                <div class="label">
+                  <img src="${tweet.author.imageUrl}">
+                </div>
+                <div class="content">
+                  <div class="inline fields">
+                    <div class="fourteen wide field">
+                      <div class="summary">
+                        <a class="user">
+                          ${tweet.author.nickName}
+                        </a>
+                        <div class="date">${tweet.formattedDate} (${tweet.creationDate})</div>
+                      </div>
+                    </div>
+                    <div class="two wide field">
+                      <div class="ui checkbox">
+                        <input type="checkbox" value="${tweet._id}" name="tweetToDelete" model.bind="tweet._id"
+                               checked.bind="selectedTweets"/>
+                        <label>select</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="extra text">
+                    ${tweet.message}
+                  </div>
+                  <div if.bind="tweet.imageUrl" class="extra images">
+                    <img src="${tweet.imageUrl}">
+                  </div>
+                  <div class="meta"></div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
+
+      <button class="ui large blue submit button" click.delegate="deleteSelectedTweets()">Delete selected tweets
+        (${selectedTweets.length})
+      </button>
+      <button class.bind="selectedUser == null ? 'disabled' : ''" class="ui large blue submit button"
+              click.delegate="deleteAllTweetsOfSelectedUser()">
+        Delete all tweets of ${selectedUser.nickName}
+      </button>
+      <button class="ui large blue submit button" click.delegate="deleteAllTweets()">Delete all tweets</button>
+
+      <!--form class="ui form">
+        <div class="three inline fields">
+          <div class="four wide field">
+            <button class="ui blue submit button" click.delegate="deleteSelectedTweets()">Delete selected tweets
+              (${selectedTweets.length})
+            </button>
+          </div>
+          <div class="four wide field">
+            <button class.bind="selectedUser == null ? 'disabled' : ''" class="ui blue submit button"
+                    click.delegate="deleteSelectedTweets()">
+              Delete all tweets of ${selectedUser.nickName}
+            </button>
+          </div>
+          <div class="three wide field">
+            <button class="ui blue submit button" click.delegate="deleteAllTweets()">Delete all tweets</button>
+          </div>
+        </div>
+      </form-->
+
+    </section>
   </article>
 </template>
 

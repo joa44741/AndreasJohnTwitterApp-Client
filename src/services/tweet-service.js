@@ -100,6 +100,14 @@ export default class TweetService {
     });
   }
 
+  deleteAllTweetsOfUser(userId) {
+    this.ac.delete('/api/users/' + userId + '/tweets').then(res => {
+      if (res.statusCode === 204) {
+        this.getTweets();
+      }
+    });
+  }
+
   deleteAllTweets() {
     this.ac.delete('/api/tweets').then(res => {
       if (res.statusCode === 204) {
@@ -197,7 +205,7 @@ export default class TweetService {
     });
   }
 
-  register(firstName, lastName, nickName, email, password) {
+  register(firstName, lastName, nickName, email, password, forwardToLogin) {
     const newUser = {
       firstName: firstName,
       lastName: lastName,
@@ -209,7 +217,9 @@ export default class TweetService {
     };
     this.ac.post('/api/users', newUser).then(res => {
       this.getUsers();
-      this.rt.navigateToRoute('login');
+      if(forwardToLogin){
+        this.rt.navigateToRoute('login');
+      }
     }).catch(err => {
       this.ea.publish(new ValidationFailed('signup'));
     });

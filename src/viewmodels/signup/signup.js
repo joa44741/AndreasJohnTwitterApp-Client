@@ -20,13 +20,12 @@ export class Signup {
         this.errorMessage = 'Signup process failed. Maybe the email address is already in use.';
         console.log(this.errorMessage);
       } else if (msg.status.success) {
-        this.counter = 0;
         this.errorMessage = null;
       }
     });
   }
 
   register(e) {
-    this.tweetService.register(this.firstName, this.lastName, this.nickName, this.email, this.password);
+    this.tweetService.register(this.firstName, this.lastName, this.nickName, this.email, this.password, true);
   }
 }

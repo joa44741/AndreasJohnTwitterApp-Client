@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import TweetService from '../../services/tweet-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {UsersDeleted, UsersLoaded} from '../../services/messages';
+import {UsersDeleted, UsersLoaded, ValidationFailed} from '../../services/messages';
 
 @inject(TweetService, EventAggregator)
 export class UserMgmt {
@@ -11,11 +11,25 @@ export class UserMgmt {
   filter = '';
   selectedUsers = [];
 
+  firstName = '';
+  lastName = '';
+  nickName = '';
+  email = '';
+  password = '';
+
   constructor(ts, ea) {
     this.tweetService = ts;
     this.ea = ea;
     this.tweetService.getUsers();
     this.getUsersList();
+
+    this.ea.subscribe(ValidationFailed, msg => {
+      if (msg.validationType === 'signup') {
+        this.errorMessage = 'Registration process failed. Maybe the email address is already in use.';
+      } else if (msg.status.success) {
+        this.errorMessage = null;
+      }
+    });
   }
 
   getUsersList() {
@@ -53,7 +67,13 @@ export class UserMgmt {
     this.tweetService.deleteAllUsers();
   }
 
+  register(e) {
+    this.errorMessage = null;
+    this.tweetService.register(this.firstName, this.lastName, this.nickName, this.email, this.password, false);
+  }
+
   attached() {
+    console.log('attached'); 
     this.usersLoadedSubscription = this.ea.subscribe(UsersLoaded, msg => {
       this.getUsersList();
     });

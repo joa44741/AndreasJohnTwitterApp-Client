@@ -12,6 +12,7 @@ export class TweetMgmt {
   filter = '';
   selectedTweets = [];
   selectedUserId;
+  selectedUser = null;
   userAll = {
     _id: -1,
     imageUrl: 'http://res.cloudinary.com/joa44741/image/upload/v1513337357/unknown_user_axspin.jpg',
@@ -29,8 +30,10 @@ export class TweetMgmt {
     this.selectedUserId = user;
     if (this.selectedUserId === this.userAll._id) {
       this.tweets = this.tweetService.tweets;
+      this.selectedUser = null;
     } else {
       this.tweets = this.tweetService.tweets.filter(tweet => tweet.author._id === this.selectedUserId);
+      this.selectedUser = this.users.filter(u => u._id === this.selectedUserId)[0];
     }
   }
 
@@ -46,6 +49,11 @@ export class TweetMgmt {
       }
     }
     this.filteredUsers = this.users;
+    const indexOfUser = this.filteredUsers.map(u => u._id).indexOf(this.selectedUserId);
+    if (indexOfUser === -1) {
+      this.selectedUserId = null;
+      this.selectedUser = null;
+    }
   }
 
   filterChanged() {
@@ -65,6 +73,11 @@ export class TweetMgmt {
           this.filteredUsers.push(user);
         }
       }
+      const index = this.filteredUsers.map(u => u._id).indexOf(this.selectedUserId);
+      if (index === -1) {
+        this.selectedUserId = null;
+        this.selectedUser = null;
+      }
     }
   }
 
@@ -74,13 +87,16 @@ export class TweetMgmt {
     }
   }
 
+  deleteAllTweetsOfSelectedUser() {
+    this.tweetService.deleteAllTweetsOfUser(this.selectedUserId);
+  }
+
   deleteAllTweets() {
     this.tweetService.deleteAllTweets();
   }
 
   attached() {
-    console.log('subscribed');
-    this.tweetsDeletedSubscription = this.ea.subscribe(TweetsLoaded, msg => {
+    this.tweetsLoadedSubscription = this.ea.subscribe(TweetsLoaded, msg => {
       this.selectedTweets = [];
       this.tweets = msg.loadedTweets;
       this.getUsersList();
@@ -88,9 +104,8 @@ export class TweetMgmt {
   }
 
   detached() {
-    if (this.tweetsDeletedSubscription) {
-      console.log('disposed');
-      this.tweetsDeletedSubscription.dispose();
+    if (this.tweetsLoadedSubscription) {
+      this.tweetsLoadedSubscription.dispose();
     }
   }
 
