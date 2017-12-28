@@ -3,7 +3,6 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {TweetsLoaded} from '../../services/messages';
 import TweetService from '../../services/tweet-service';
 
-
 @inject(TweetService, EventAggregator)
 export class Firehose {
 
@@ -15,10 +14,11 @@ export class Firehose {
     this.tweets = this.tweetService.tweets;
     this.markOwnTweets();
     this.ea = ea;
-  }
 
-  attached() {
-    this.subscription = this.ea.subscribe(TweetsLoaded, msg => {
+    if (this.tweetsLoadedSubscription) {
+      this.tweetsLoadedSubscription.dispose();
+    }
+    this.tweetsLoadedSubscription = this.ea.subscribe(TweetsLoaded, msg => {
       this.tweets = msg.loadedTweets;
       this.markOwnTweets();
     });
@@ -31,12 +31,6 @@ export class Firehose {
         tweet.isTweetOfCurrentUser = true;
         this.tweets[i] = tweet;
       }
-    }
-  }
-
-  detached() {
-    if (this.subscription) {
-      this.subscription.dispose();
     }
   }
 }

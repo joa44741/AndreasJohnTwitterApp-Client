@@ -30,7 +30,7 @@
                 <label>New image</label>
                 <input type="file" accept="image/*" files.bind="picture"> </input>
               </div>
-              <button class="ui blue submit button">Submit</button>
+              <button class.bind="loading ? 'loading' : ''" class="ui blue submit button">Submit</button>
             </form>
           </div>
         </div>

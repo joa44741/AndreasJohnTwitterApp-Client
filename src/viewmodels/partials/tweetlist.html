@@ -1,5 +1,5 @@
 <template>
-  <form class="ui form" submit.trigger="deleteTweets()">
+  <form class="ui form">
     <div class="ui feed">
       <div class="event" repeat.for="tweet of tweets">
         <div class="label">
@@ -16,7 +16,7 @@
                    route-href="route: showtimeline; params.bind: {id:tweet.author._id}">
                   ${tweet.author.nickName}
                 </a>
-                <div class="date">${tweet.creationDate}</div>
+                <div class="date">${tweet.formattedDate} (${tweet.creationDate})</div>
               </div>
             </div>
             <div class="one wide field">

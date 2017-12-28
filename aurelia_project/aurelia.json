@@ -80,6 +80,8 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
+          { "name": "moment", "path": "../node_modules/moment", "main": "moment" },
+          { "name": "jquery", "path": "../node_modules/jquery", "main": "jquery" },
           "text"
         ]
       }

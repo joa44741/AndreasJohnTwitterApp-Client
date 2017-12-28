@@ -13,3 +13,11 @@ strong{
 nav{
   margin-bottom: 14px !important;
 }
+
+.userItemText{
+  color: black !important;
+}
+
+.labelWithMarginBottom{
+  margin-bottom: 28px !important;
+}

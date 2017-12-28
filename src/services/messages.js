@@ -16,6 +16,12 @@ export class MyTweetsLoaded {
   }
 }
 
+export class FriendTweetsLoaded {
+  constructor(tweets) {
+    this.loadedTweets = tweets;
+  }
+}
+
 export class ValidationFailed {
   constructor(validationType) {
     this.validationType = validationType;
@@ -26,4 +32,10 @@ export class ImageUploadFinished {
   constructor(imageUrl) {
     this.imageUrl = imageUrl;
   }
+}
+
+export class UsersDeleted {
+}
+
+export class UsersLoaded {
 }

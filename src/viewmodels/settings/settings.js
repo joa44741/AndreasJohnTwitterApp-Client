@@ -13,6 +13,7 @@ export class Settings {
   password = '';
   imageUrl = '';
   picture = [];
+  loading = false;
 
   constructor(ts, ea) {
     this.tweetService = ts;
@@ -26,6 +27,7 @@ export class Settings {
   }
 
   updateSettings() {
+    this.loading = true;
     const reader = new window.FileReader();
     reader.onload = () => {
       let file = reader.result;
@@ -36,18 +38,20 @@ export class Settings {
       reader.readAsDataURL(this.picture[0]);
     } else {
       this.tweetService.updateSettings(this.firstName, this.lastName, this.nickName, this.email, this.password, this.imageUrl);
+      this.loading = false;
     }
   }
 
   attached() {
-    this.subscription = this.ea.subscribe(ImageUploadFinished, msg => {
+    this.tweetsLoadedSubscription = this.ea.subscribe(ImageUploadFinished, msg => {
       this.imageUrl = msg.imageUrl;
+      this.loading = false;
     });
   }
 
   detached() {
-    if (this.subscription) {
-      this.subscription.dispose();
+    if (this.tweetsLoadedSubscription) {
+      this.tweetsLoadedSubscription.dispose();
     }
   }
 

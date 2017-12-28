@@ -32,7 +32,7 @@ export class MyTimeline {
   }
 
   attached() {
-    this.subscription = this.ea.subscribe(MyTweetsLoaded, msg => {
+    this.tweetsLoadedSubscription = this.ea.subscribe(MyTweetsLoaded, msg => {
       this.tweets = msg.loadedTweets;
       for (let i = 0; i < this.tweets.length; i++) {
         const tweet = this.tweets[i];
@@ -43,8 +43,8 @@ export class MyTimeline {
   }
 
   detached() {
-    if (this.subscription) {
-      this.subscription.dispose();
+    if (this.tweetsLoadedSubscription) {
+      this.tweetsLoadedSubscription.dispose();
     }
   }
 }

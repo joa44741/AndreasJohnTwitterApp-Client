@@ -9,6 +9,7 @@ export class Tweet {
   message = '';
   picture = [];
   errorMessage = null;
+  loading = false;
 
   constructor(ts, ea) {
     this.tweetService = ts;
@@ -21,7 +22,7 @@ export class Tweet {
   }
 
   attached() {
-    this.subscription = this.ea.subscribe(ValidationFailed, msg => {
+    this.tweetsLoadedSubscription = this.ea.subscribe(ValidationFailed, msg => {
       if (msg.validationType === 'postTweet') {
         this.errorMessage = 'The validation failed. Message must not be empty and file must not be too large';
       }
@@ -29,12 +30,13 @@ export class Tweet {
   }
 
   detached() {
-    if (this.subscription) {
-      this.subscription.dispose();
+    if (this.tweetsLoadedSubscription) {
+      this.tweetsLoadedSubscription.dispose();
     }
   }
 
   postTweet() {
+    this.loading = true;
     const reader = new window.FileReader();
     reader.onload = () => {
       let file = reader.result;

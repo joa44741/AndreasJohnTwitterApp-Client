@@ -24,7 +24,7 @@
               <label>Image</label>
               <input type="file" accept="image/*" files.bind="picture"> </input>
             </div>
-            <button class="ui blue submit button">Send!</button>
+            <button class.bind="loading ? 'loading' : ''" class="ui blue submit button">Send!</button>
           </form>
         </div>
       </div>

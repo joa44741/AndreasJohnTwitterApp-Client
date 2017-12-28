@@ -7,8 +7,8 @@ import {LoginStatus} from '../../services/messages';
 export class Login {
 
   errorMessage = null;
-  email = 'john@doe.com';
-  password = 'secret';
+  email = 'admin@johntwitter.com';
+  password = 'admin';
   counter = 0;
 
   constructor(ts, ea) {

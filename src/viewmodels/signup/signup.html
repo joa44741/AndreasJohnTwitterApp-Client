@@ -1,6 +1,11 @@
 <template>
   <form submit.delegate="register($event)" class="ui stacked segment form">
     <h3 class="ui header">Register</h3>
+    <div if.bind="errorMessage" class="ui negative message transition">
+      <div class="header">
+        ${errorMessage}
+      </div>
+    </div>
     <div class="two fields">
       <div class="field">
         <label>First Name</label>

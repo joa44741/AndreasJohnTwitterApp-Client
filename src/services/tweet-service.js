@@ -1,27 +1,31 @@
-import {inject, bindable} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import Fixtures from './fixtures';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AsyncHttpClient from './async-http-client';
-import {TweetsLoaded, MyTweetsLoaded, LoginStatus, ValidationFailed, ImageUploadFinished} from './messages';
+import Formatter from './formatter';
+
+import {
+  TweetsLoaded, MyTweetsLoaded, LoginStatus, ValidationFailed, ImageUploadFinished,
+  UsersDeleted, UsersLoaded, FriendTweetsLoaded
+} from './messages';
 import { Router } from 'aurelia-router';
 
-@inject(Fixtures, EventAggregator, AsyncHttpClient, Router)
+@inject(Fixtures, EventAggregator, AsyncHttpClient, Router, Formatter)
 export default class TweetService {
 
   tweets = [];
   tweetsOfFriends = [];
-
-  @bindable
   mytweets = [];
   users = [];
   currentUserId;
   currentUser;
 
-  constructor(data, ea, ac, rt) {
+  constructor(data, ea, ac, rt, formatter) {
     this.methods = data.methods;
     this.ea = ea;
     this.ac = ac;
     this.rt = rt;
+    this.formatter = formatter;
     this.getTweets();
   }
 
@@ -34,6 +38,8 @@ export default class TweetService {
       const returnedTweet = res.content;
       this.tweets.unshift(returnedTweet);
       this.mytweets.unshift(returnedTweet);
+      this.formatter.formatTweetCreationDates(this.tweets);
+      this.formatter.formatTweetCreationDates(this.mytweets);
       this.ea.publish(new TweetsLoaded(this.tweets));
       this.ea.publish(new MyTweetsLoaded(this.mytweets));
       this.rt.navigateToRoute('mytimeline');
@@ -43,10 +49,9 @@ export default class TweetService {
   }
 
   getTweets() {
-    console.log('getTweets called');
     this.ac.get('/api/tweets').then(res => {
-      console.log('getTweets returned: ' + res.content);
       this.tweets = res.content;
+      this.formatter.formatTweetCreationDates(this.tweets);
       this.ea.publish(new TweetsLoaded(this.tweets));
     });
   }
@@ -54,6 +59,8 @@ export default class TweetService {
   getTweetsOfFriends() {
     this.ac.get('/api/users/followings/tweets').then(res => {
       this.tweetsOfFriends = res.content;
+      this.formatter.formatTweetCreationDates(this.tweetsOfFriends);
+      this.ea.publish(new FriendTweetsLoaded(this.tweets));
     });
   }
 
@@ -74,6 +81,8 @@ export default class TweetService {
       if (res.statusCode === 204) {
         this.deleteTweetLocally(id);
       }
+    }).catch(err => {
+      console.log('error occured: ' + err);
     });
   }
 
@@ -89,6 +98,19 @@ export default class TweetService {
         this.mytweets = [];
       }
     });
+  }
+
+  deleteAllTweets() {
+    this.ac.delete('/api/tweets').then(res => {
+      if (res.statusCode === 204) {
+        this.getTweets();
+      }
+    });
+  }
+
+
+  getLoggedInUserPromise() {
+    return this.ac.get('/api/user');
   }
 
   followUser(id) {
@@ -109,6 +131,11 @@ export default class TweetService {
     });
   }
 
+  getUserPromise(id) {
+    return this.ac.get('/api/users/' + id);
+  }
+
+
   getTweetsOfUser(id) {
     return this.ac.get('/api/users/' + id + '/tweets');
   }
@@ -116,6 +143,7 @@ export default class TweetService {
   getMyTweets() {
     this.ac.get('/api/users/' + this.currentUserId + '/tweets').then(res => {
       this.mytweets = res.content;
+      this.formatter.formatTweetCreationDates(this.mytweets);
     });
   }
 
@@ -124,12 +152,13 @@ export default class TweetService {
       this.users = res.content;
       const indexOfCurrentUser = this.users.map(u => u._id).indexOf(this.currentUserId);
       this.currentUser = this.users[indexOfCurrentUser];
+      this.ea.publish(new UsersLoaded());
     });
   }
 
   getDataForLoggedInUser() {
     this.ac.get('/api/user').then(res => {
-      this.currentUserId = res.content;
+      this.currentUserId = res.content.currentUserId;
       return this.ac.get('/api/users');
     }).then(res => {
       this.users = res.content;
@@ -175,10 +204,14 @@ export default class TweetService {
       nickName: nickName,
       email: email,
       password: password,
-      imageUrl: './assets/images/unknown_user.jpg'
+      imageUrl: 'http://res.cloudinary.com/joa44741/image/upload/v1513337357/unknown_user_axspin.jpg',
+      isAdmin: false
     };
     this.ac.post('/api/users', newUser).then(res => {
       this.getUsers();
+      this.rt.navigateToRoute('login');
+    }).catch(err => {
+      this.ea.publish(new ValidationFailed('signup'));
     });
   }
 
@@ -201,6 +234,33 @@ export default class TweetService {
 
   isAuthenticated() {
     return this.ac.isAuthenticated();
+  }
+
+  deleteAllUsers() {
+    this.ac.delete('/api/users').then(res => {
+      if (res.statusCode === 204) {
+        this.users = [];
+        this.ea.publish(new UsersDeleted());
+        this.getTweets();
+      }
+    });
+  }
+
+  deleteUser(id) {
+    this.ac.delete('/api/users/' + id).then(res => {
+      if (res.statusCode === 204) {
+        this.deleteUserLocally(id);
+        this.getTweets();
+      }
+    });
+  }
+
+  deleteUserLocally(id) {
+    const indexOfMyDeletedUser = this.users.map(t => t._id).indexOf(id);
+    if (indexOfMyDeletedUser > -1) {
+      this.users.splice(indexOfMyDeletedUser, 1);
+    }
+    this.ea.publish(new UsersDeleted());
   }
 
 }

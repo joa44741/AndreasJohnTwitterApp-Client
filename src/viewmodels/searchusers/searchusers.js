@@ -8,7 +8,7 @@ export class SearchForUsers {
   users = [];
   filter = '';
 
-  constructor(ts, rt) {
+  constructor(ts) {
     this.tweetService = ts;
     this.users = ts.users;
     const indexOfCurrentUser = this.users.map(u => u._id).indexOf(ts.currentUserId);
@@ -24,7 +24,10 @@ export class SearchForUsers {
     } else {
       this.filteredUsers = [];
       for (let user of this.users) {
-        if (user.firstName.includes(this.filter) || user.lastName.includes(this.filter) || user.nickName.includes(this.filter) || user.email.includes(this.filter)) {
+        if (user.firstName.toUpperCase().includes(this.filter.toUpperCase()) ||
+          user.lastName.toUpperCase().includes(this.filter.toUpperCase()) ||
+          user.nickName.toUpperCase().includes(this.filter.toUpperCase()) ||
+          user.email.toUpperCase().includes(this.filter.toUpperCase())) {
           this.filteredUsers.push(user);
         }
       }
