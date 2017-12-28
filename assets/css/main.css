@@ -1,0 +1,23 @@
+body{
+    background-color: gray;
+}
+
+strong{
+    color: blue;
+}
+
+.event{
+    margin-bottom: 10px;
+}
+
+nav{
+  margin-bottom: 14px !important;
+}
+
+.userItemText{
+  color: black !important;
+}
+
+.labelWithMarginBottom{
+  margin-bottom: 28px !important;
+}
