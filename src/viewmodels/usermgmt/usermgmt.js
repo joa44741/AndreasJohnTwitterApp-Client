@@ -73,7 +73,7 @@ export class UserMgmt {
   }
 
   attached() {
-    console.log('attached'); 
+    console.log('attached');
     this.usersLoadedSubscription = this.ea.subscribe(UsersLoaded, msg => {
       this.getUsersList();
     });
