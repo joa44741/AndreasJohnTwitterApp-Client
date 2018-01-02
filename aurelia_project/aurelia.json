@@ -81,7 +81,11 @@
             "env": "dev"
           },
           { "name": "moment", "path": "../node_modules/moment", "main": "moment" },
-          { "name": "jquery", "path": "../node_modules/jquery", "main": "jquery" },
+          { "name": "jquery", "path": "../node_modules/jquery/dist/jquery"},
+          {
+            "name": "lightbox",
+            "path": "../node_modules/lightbox2/dist/js/lightbox"
+          },
           "text"
         ]
       }
