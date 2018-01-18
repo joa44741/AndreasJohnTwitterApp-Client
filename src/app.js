@@ -32,7 +32,7 @@ export class App {
 
   configureRouter(config, router) {
     config.map([
-      { route: '', name: 'firehose', moduleId: 'viewmodels/firehose/firehose', nav: true, title: 'Global' },
+      { route: '', name: 'firehose', moduleId: 'viewmodels/firehose/firehose', nav: true, title: 'Global Tweets' },
       { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' },
       { route: 'login', name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' }
     ]);

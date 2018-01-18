@@ -10,6 +10,7 @@ export class Firehose {
   isDeletable = false;
 
   constructor(ts, ea) {
+    console.log('constructor of firehose.js called');
     this.tweetService = ts;
     this.tweets = this.tweetService.tweets;
     this.markOwnTweets();
@@ -19,6 +20,7 @@ export class Firehose {
       this.tweetsLoadedSubscription.dispose();
     }
     this.tweetsLoadedSubscription = this.ea.subscribe(TweetsLoaded, msg => {
+      console.log('TweetsLoaded event was fired');
       this.tweets = msg.loadedTweets;
       this.markOwnTweets();
     });

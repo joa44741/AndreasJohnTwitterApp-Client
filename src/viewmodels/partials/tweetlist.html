@@ -31,19 +31,9 @@
             ${tweet.message}
           </div>
           <div if.bind="tweet.imageUrl" class="extra images">
+            <img src="${tweet.imageUrl}" style="width: auto; max-width: 100%">
+            <!-- I don't know why Lightbox doesn't work... very annoying... on server rendered page it's no problem at all-->
             <!--a href="${tweet.imageUrl}" data-lightbox="image-${tweet._id}"><img src="${tweet.imageUrl}"></a-->
-            <!--a href="${tweet.imageUrl}" data-lightbox="image-1" data-title="My caption">Image #1</a-->
-
-            <img src="${tweet.imageUrl}">
-            <!--a onclick="${tweet._id}).modal('show');">
-              <img src="${tweet.imageUrl}">
-            </a-->
-            <!--div class="ui modal">
-              <i class="close icon"></i>
-              <div class="image content">
-                  <img class="ui centered image" src="${tweet.imageUrl}">
-              </div>
-            </div-->
           </div>
           <div class="meta">
 

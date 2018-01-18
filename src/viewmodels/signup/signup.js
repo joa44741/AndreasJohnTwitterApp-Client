@@ -6,11 +6,11 @@ import {ValidationFailed} from '../../services/messages';
 @inject(TweetService, EventAggregator)
 export class Signup {
 
-  firstName = 'Adam';
-  lastName = 'Bien';
-  nickName = 'JavaEE-Guru'
-  email = 'adam@bien.com';
-  password = 'secret';
+  firstName = '';
+  lastName = '';
+  nickName = ''
+  email = '';
+  password = '';
   errorMessage = null;
 
   constructor(ts, ea) {
