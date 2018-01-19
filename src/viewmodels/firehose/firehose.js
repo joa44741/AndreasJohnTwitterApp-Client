@@ -24,6 +24,8 @@ export class Firehose {
       this.tweets = msg.loadedTweets;
       this.markOwnTweets();
     });
+
+    this.tweetService.getTweets();
   }
 
   markOwnTweets() {
