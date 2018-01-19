@@ -1212,9 +1212,10 @@ define('viewmodels/showtimeline/showtimeline',['exports', 'aurelia-framework', '
       }).indexOf(params.id);
       this.user = this.tweetService.users[index];
       this.tweetService.getTweetsOfUser(params.id).then(function (res) {
-        return _this.tweets = res.content;
+        _this.tweets = res.content;
+        _this.formatter.formatTweetCreationDates(_this.tweets);
       });
-      this.formatter.formatTweetCreationDates(this.tweets);
+
       this.isFollowing = this.tweetService.currentUser.followings.indexOf(params.id) > -1;
     };
 
