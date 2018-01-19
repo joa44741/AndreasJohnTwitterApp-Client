@@ -21,3 +21,9 @@ nav{
 .labelWithMarginBottom{
   margin-bottom: 28px !important;
 }
+
+.tweetImage{
+  width: auto !important;
+  max-width: 80%;
+  max-height: 250px;
+}
