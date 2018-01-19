@@ -822,6 +822,8 @@ define('viewmodels/firehose/firehose',['exports', 'aurelia-framework', 'aurelia-
         _this.tweets = msg.loadedTweets;
         _this.markOwnTweets();
       });
+
+      this.tweetService.getTweets();
     }
 
     Firehose.prototype.markOwnTweets = function markOwnTweets() {
