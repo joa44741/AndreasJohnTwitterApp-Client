@@ -17,8 +17,11 @@ export class ShowTimeline {
   activate(params) {
     const index = this.tweetService.users.map(u => u._id).indexOf(params.id);
     this.user = this.tweetService.users[index];
-    this.tweetService.getTweetsOfUser(params.id).then(res => this.tweets = res.content);
-    this.formatter.formatTweetCreationDates(this.tweets);
+    this.tweetService.getTweetsOfUser(params.id).then(res => {
+      this.tweets = res.content;
+      this.formatter.formatTweetCreationDates(this.tweets);
+    });
+
     this.isFollowing = this.tweetService.currentUser.followings.indexOf(params.id) > -1;
   }
 
