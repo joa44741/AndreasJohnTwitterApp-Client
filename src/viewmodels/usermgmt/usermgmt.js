@@ -70,10 +70,15 @@ export class UserMgmt {
   register(e) {
     this.errorMessage = null;
     this.tweetService.register(this.firstName, this.lastName, this.nickName, this.email, this.password, false);
+    this.firstName = '';
+    this.lastName = '';
+    this.nickName = '';
+    this.email = '';
+    this.password = '';
   }
 
   attached() {
-    console.log('attached'); 
+    console.log('attached');
     this.usersLoadedSubscription = this.ea.subscribe(UsersLoaded, msg => {
       this.getUsersList();
     });
