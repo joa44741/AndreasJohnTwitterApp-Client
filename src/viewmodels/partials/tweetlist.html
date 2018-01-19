@@ -31,7 +31,7 @@
             ${tweet.message}
           </div>
           <div if.bind="tweet.imageUrl" class="extra images">
-            <img src="${tweet.imageUrl}" style="width: auto; max-width: 100%">
+            <img src="${tweet.imageUrl}" class="tweetImage">
             <!-- I don't know why Lightbox doesn't work... very annoying... on server rendered page it's no problem at all-->
             <!--a href="${tweet.imageUrl}" data-lightbox="image-${tweet._id}"><img src="${tweet.imageUrl}"></a-->
           </div>
