@@ -1798,6 +1798,11 @@ define('viewmodels/usermgmt/usermgmt',['exports', 'aurelia-framework', '../../se
     UserMgmt.prototype.register = function register(e) {
       this.errorMessage = null;
       this.tweetService.register(this.firstName, this.lastName, this.nickName, this.email, this.password, false);
+      this.firstName = '';
+      this.lastName = '';
+      this.nickName = '';
+      this.email = '';
+      this.password = '';
     };
 
     UserMgmt.prototype.attached = function attached() {
